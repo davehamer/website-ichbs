@@ -19,7 +19,6 @@ jobs:
         uses: docker/metadata-action@v3
         with:
           flavor: |
-            latest=true
             prefix={{branch}}-
           # list of Docker images to use as base name for tags
           images: |
@@ -28,6 +27,7 @@ jobs:
           tags: |
             type=raw,value={{sha}}
             type=raw,value={{date 'YYYY-MM-DDTHHmmss.SSS'}}
+            type=raw,value=latest
       - name: Set up Docker Context for Buildx
         id: buildx-context
         run: |
