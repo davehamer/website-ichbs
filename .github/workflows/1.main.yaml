@@ -20,14 +20,14 @@ jobs:
         with:
           flavor: |
             latest=true
-            prefix=dev-
+            prefix={{branch}}-
           # list of Docker images to use as base name for tags
           images: |
             ghcr.io/davehamer/website-ichbs
           # generate Docker tags based on the following events/attributes
           tags: |
-            type=raw,value={{branch}}-{{sha}}
-            type=raw,value={{branch}}-{{date 'YYYY-MM-DDTHH:mm:ss.SSS'}}
+            type=raw,value={{sha}}
+            type=raw,value={{date 'YYYY-MM-DDTHHmmss.SSS'}}
       - name: Set up Docker Context for Buildx
         id: buildx-context
         run: |
