@@ -1,4 +1,4 @@
-name: BuildImage
+name: BuildImage-Dev
 
 on:
   # Allows you to run this workflow manually from the Actions tab
@@ -7,26 +7,29 @@ on:
     branches:
       - dev
 jobs:
-  docker:
+  DevImage:
     runs-on: 
       - self-hosted
       - linux
     steps:
       - name: Checkout
         uses: actions/checkout@v2
+        with:
+          ref: dev
       - name: Docker meta
         id: meta
         uses: docker/metadata-action@v3
         with:
+          flavor: |
+            prefix={{branch}}-
           # list of Docker images to use as base name for tags
           images: |
-            davehamer/website-ichbs
             ghcr.io/davehamer/website-ichbs
           # generate Docker tags based on the following events/attributes
           tags: |
-            type=schedule
-            type=ref,event=branch
-            type=sha
+            type=raw,value={{sha}}
+            type=raw,value={{date 'YYYY-MM-DDTHHmmss.SSS'}}
+            type=raw,value=latest
       - name: Set up Docker Context for Buildx
         id: buildx-context
         run: |
